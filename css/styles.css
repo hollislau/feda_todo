@@ -1,0 +1,78 @@
+/*beige: 216 202 168 #D8CAA8
+light green: 92 131 47 #5C832F
+green: 40 73 7 #284907
+brown: 76 51 26 #4C331A
+dark brown: 56 37 19 #382513
+blue-gray: 54 57 66 #363942
+dark gray: 27 29 33 #1B1D21*/
+
+html {
+  background: url(../images/background_1920.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+
+body {
+  font-family: "Indie Flower", cursive;
+  color: #363942;
+  font-weight: bold;
+  /*text-shadow: 1px 1px 1px #000000;*/
+}
+
+h4, ol, li, p, button, input {
+  margin: 1vh 1vw;
+  /*border: 5px solid;*/
+  /*border-radius: 10px/30px;*/
+}
+
+h4 {
+  text-decoration: underline;
+}
+
+ol {
+  height: 65vh;
+  overflow: auto;
+}
+
+ol div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+button {
+  color: #363942;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  border-color: #363942;
+}
+
+input {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+}
+
+.add {
+  color: rgba(54, 57, 66, 0.7);
+  justify-content: center;
+  border: 1px dashed rgba(54, 57, 66, 0.7);
+  border-radius: 5px;
+}
+
+.box {
+  text-align: center;
+  border: 8px ridge #4C331A;
+  border-radius: 5px;
+  /*padding: 1%;*/
+  margin-top: 2vh;
+  background-color: rgba(216, 202, 168, 0.8);
+  box-shadow: 3px 3px 7px #000000;
+}
+
+.footer {
+  color: #1B1D21;
+  margin: 1vh 0;
+  text-indent: 10px;
+}
