@@ -1,10 +1,11 @@
-/*beige: 216 202 168 #D8CAA8
+/* Colors:
+beige: 216 202 168 #D8CAA8
 light green: 92 131 47 #5C832F
 green: 40 73 7 #284907
 brown: 76 51 26 #4C331A
 dark brown: 56 37 19 #382513
 blue-gray: 54 57 66 #363942
-dark gray: 27 29 33 #1B1D21*/
+dark gray: 27 29 33 #1B1D21 */
 
 html {
   background: url(../images/background_1920.jpg) no-repeat center center fixed;
@@ -15,13 +16,10 @@ body {
   font-family: "Indie Flower", cursive;
   color: #363942;
   font-weight: bold;
-  /*text-shadow: 1px 1px 1px #000000;*/
 }
 
-h4, ol, li, p, button, input {
+h4, ol, li, p, button {
   margin: 1vh 1vw;
-  /*border: 5px solid;*/
-  /*border-radius: 10px/30px;*/
 }
 
 h4 {
@@ -33,46 +31,60 @@ ol {
   overflow: auto;
 }
 
-ol div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+li, p {
   text-align: left;
 }
 
 button {
   color: #363942;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 10px;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 5px;
   border-color: #363942;
+  transition: background 0.2s;
 }
 
 input {
-  width: 100%;
+  display: block;
+  width: 95.6%;
+  margin: 1vh auto;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 5px;
 }
 
-.add {
+footer p {
+  color: #1B1D21;
+  margin: 1vh 0;
+  text-indent: 10px;
+}
+
+#add-text {
+  text-align: center;
   color: rgba(54, 57, 66, 0.7);
-  justify-content: center;
   border: 1px dashed rgba(54, 57, 66, 0.7);
   border-radius: 5px;
+  transition: background 0.2s;
 }
 
 .box {
   text-align: center;
-  border: 8px ridge #4C331A;
+  border: 10px ridge #4C331A;
   border-radius: 5px;
-  /*padding: 1%;*/
   margin-top: 2vh;
   background-color: rgba(216, 202, 168, 0.8);
   box-shadow: 3px 3px 7px #000000;
 }
 
-.footer {
-  color: #1B1D21;
-  margin: 1vh 0;
-  text-indent: 10px;
+#add-text:hover, button:hover, li:hover {
+  background-color: rgba(92, 131, 47, 0.5);
+  cursor: pointer;
 }
+
+#add-text:active, button:active {
+  background-color: rgba(40, 73, 7, 0.5);
+}
+
+button:active {
+  transform: scale(0.9);
+}
+
