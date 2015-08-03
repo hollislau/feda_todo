@@ -76,9 +76,9 @@ $(function() {
     },
 
     setTargetRefs: function(event) {
-      this.target = $(event.target)
-      if (this.target.attr("id")) {
-        var idArray = this.target.attr("id").split("-");
+      this.eventTarget = $(event.target)
+      if (this.eventTarget.attr("id")) {
+        var idArray = this.eventTarget.attr("id").split("-");
         this.targetIndex = idArray[idArray.length - 1];
       }
     },
@@ -101,8 +101,8 @@ $(function() {
       var self = this;
       $(document).on("click", function(e) {
         self.setTargetRefs(e);
-        if (self.target.is("#add-text, li")) {
-          if (self.target.is("#add-text")) {
+        if (self.eventTarget.is("#add-text, li")) {
+          if (self.eventTarget.is("#add-text")) {
             self.modifyFadeOut();
             self.addFadeIn();
           } else {
@@ -110,17 +110,17 @@ $(function() {
             self.addFadeOut();
             self.modifyFadeIn(self.targetIndex);
           }
-        } else if (self.target.is("input")) {
+        } else if (self.eventTarget.is("input")) {
           return;
-        } else if (self.target.is("#add-button")) {
+        } else if (self.eventTarget.is("#add-button")) {
           if ($("#add-input").val()) {
             self.addItem();
           }
           self.addFadeOut();
-        } else if (self.target.is(".edit-button")) {
+        } else if (self.eventTarget.is(".edit-button")) {
           self.editItem(self.targetIndex);
           self.modifyFadeOut();
-        } else if (self.target.is(".remove-button")) {
+        } else if (self.eventTarget.is(".remove-button")) {
           self.removeItem(self.targetIndex);
           self.renderList(self.targetIndex);
         } else {
@@ -135,10 +135,10 @@ $(function() {
       $(document).on("keydown", function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         self.setTargetRefs(e);
-        if (self.target.is("input")) {
+        if (self.eventTarget.is("input")) {
           if (code == 13) {
             e.preventDefault();
-            if (self.target.is("#add-input")) {
+            if (self.eventTarget.is("#add-input")) {
               if ($("#add-input").val()) {
                 self.addItem();
               }
