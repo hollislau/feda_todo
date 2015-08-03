@@ -5,20 +5,22 @@ $(function() {
                 "Pass the interview with flying colors",
                 "Kick ass in the DA class",
                 "Get an awesome coding job"],
+    eventTarget: "",
+    targetIndex: "",
 
     renderItem: function(index) {
       $("#add-field")
         .before("<div id='display-" + index + "' class='remove-" + index +
-          "'><li id='item-" + index + "'>" + this.listItems[index] + "</li>")
+          " display'><li id='item-" + index + "'>" + this.listItems[index] + "</li>")
         .before("<div id='modify-" + index + "' class='remove-" + index +
-          "'><input id='input-" + index + "'><button id='edit-" + index +
-          "' class='edit-button'>Edit</button><button id='remove-" +
-          index + "' class='remove-button'>Remove</button></div></div>");
+          " modify'><input id='input-" + index + "'><button id='edit-" + index +
+          "' class='edit-button'>Edit</button><button id='remove-" + index +
+          "' class='remove-button'>Remove</button></div></div>");
       $("#modify-" + index).hide();
     },
 
-    renderList: function() {
-      for (var i = 0; i < this.listItems.length; i++) {
+    renderList: function(index) {
+      for (var i = index; i < this.listItems.length; i++) {
         this.renderItem(i);
       }
     },
@@ -34,8 +36,8 @@ $(function() {
 
     addFadeOut: function() {
       $("#add-input").val("");
-      $("#add-item").fadeOut(0, function() {
-        $("#add-field").fadeIn(200);
+      $("#add-item:visible").fadeOut(0, function() {
+        $("#add-field:hidden").fadeIn(200);
       })
     },
 
@@ -50,11 +52,9 @@ $(function() {
     },
 
     modifyFadeOut: function() {
-      for (var i = 0; i < this.listItems.length; i++) {
-        $("#modify-" + i).fadeOut(0, function() {
-          $("#display-" + i).fadeIn(200);
-        })
-      }
+      $(".modify:visible").fadeOut(0, function() {
+        $(".display:hidden").fadeIn(200);
+      })
     },
 
     addItem: function() {
@@ -73,41 +73,56 @@ $(function() {
         $(".remove-" + i).remove();
       }
       this.listItems.splice(index, 1);
-      for (var i = index; i < this.listItems.length; i++) {
-        this.renderItem(i);
+    },
+
+    setTargetRefs: function(event) {
+      this.target = $(event.target)
+      if (this.target.attr("id")) {
+        var idArray = this.target.attr("id").split("-");
+        this.targetIndex = idArray[idArray.length - 1];
       }
     },
 
-    clickListener: function() {
+    loadListData: function() {
+      var listData = JSON.parse(localStorage.getItem("listData"));
+      if (listData) {
+        this.listItems = listData;
+      }
+    },
+
+    storeListData: function() {
+      var self = this;
+      $(window).on("unload", function() {
+        localStorage.setItem("listData", JSON.stringify(self.listItems));
+      })
+    },
+
+    addClickListener: function() {
       var self = this;
       $(document).on("click", function(e) {
-        var target = $(e.target);
-        var targetIndex = "";
-        if (target.attr("id")) {
-          var idArray = target.attr("id").split("-");
-          targetIndex = idArray[idArray.length - 1];
-        }
-        if (target.is("#add-text, li")) {
-          if (target.is("#add-text")) {
+        self.setTargetRefs(e);
+        if (self.target.is("#add-text, li")) {
+          if (self.target.is("#add-text")) {
             self.modifyFadeOut();
             self.addFadeIn();
           } else {
             self.modifyFadeOut();
             self.addFadeOut();
-            self.modifyFadeIn(targetIndex);
+            self.modifyFadeIn(self.targetIndex);
           }
-        } else if (target.is("input")) {
+        } else if (self.target.is("input")) {
           return;
-        } else if (target.is("#add-button")) {
+        } else if (self.target.is("#add-button")) {
           if ($("#add-input").val()) {
             self.addItem();
           }
           self.addFadeOut();
-        } else if (target.is(".edit-button")) {
-          self.editItem(targetIndex);
+        } else if (self.target.is(".edit-button")) {
+          self.editItem(self.targetIndex);
           self.modifyFadeOut();
-        } else if (target.is(".remove-button")) {
-          self.removeItem(targetIndex);
+        } else if (self.target.is(".remove-button")) {
+          self.removeItem(self.targetIndex);
+          self.renderList(self.targetIndex);
         } else {
           self.addFadeOut();
           self.modifyFadeOut();
@@ -115,25 +130,20 @@ $(function() {
       })
     },
 
-    keyListener: function() {
+    addKeyListener: function() {
       var self = this;
       $(document).on("keydown", function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
-        var target = $(e.target);
-        var targetIndex = "";
-        if (target.attr("id")) {
-          var idArray = target.attr("id").split("-");
-          targetIndex = idArray[idArray.length - 1];
-        }
-        if (target.is("input")) {
+        self.setTargetRefs(e);
+        if (self.target.is("input")) {
           if (code == 13) {
             e.preventDefault();
-            if (target.is("#add-input")) {
+            if (self.target.is("#add-input")) {
               if ($("#add-input").val()) {
                 self.addItem();
               }
             } else {
-              self.editItem(targetIndex);
+              self.editItem(self.targetIndex);
             }
             self.addFadeOut();
             self.modifyFadeOut();
@@ -148,8 +158,10 @@ $(function() {
     }
   }
 
-  todoList.renderList();
-  todoList.clickListener();
-  todoList.keyListener();
+  todoList.loadListData();
+  todoList.renderList(0);
+  todoList.addClickListener();
+  todoList.addKeyListener();
+  todoList.storeListData();
 
 });
