@@ -1,10 +1,10 @@
 $(function() {
 
   var todoList = {
-    listItems: ["Submit the code challenge for the Code Fellows FEDA",
-                "Pass the interview with flying colors",
-                "Kick ass in the DA class",
-                "Get an awesome coding job"],
+    listItems: ["Submit the code challenge for the Front End Dev Accelerator",
+                "Successfully pass the interview",
+                "Learn to code in class",
+                "Get an awesome web development job"],
     eventTarget: "",
     targetIndex: "",
 
@@ -19,8 +19,8 @@ $(function() {
       $("#modify-" + index).hide();
     },
 
-    renderList: function(index) {
-      for (var i = index; i < this.listItems.length; i++) {
+    renderList: function() {
+      for (var i = 0; i < this.listItems.length; i++) {
         this.renderItem(i);
       }
     },
@@ -69,10 +69,11 @@ $(function() {
     },
 
     removeItem: function(index) {
-      for (var i = index; i < this.listItems.length; i++) {
-        $(".remove-" + i).remove();
-      }
       this.listItems.splice(index, 1);
+      for (var i = index; i < this.listItems.length; i++) {
+        $("#item-" + i).text(this.listItems[i]);
+      }
+      $(".remove-" + this.listItems.length).remove();
     },
 
     setTargetRefs: function(event) {
@@ -122,7 +123,7 @@ $(function() {
           self.modifyFadeOut();
         } else if (self.eventTarget.is(".remove-button")) {
           self.removeItem(self.targetIndex);
-          self.renderList(self.targetIndex);
+          self.modifyFadeOut();
         } else {
           self.addFadeOut();
           self.modifyFadeOut();
@@ -159,7 +160,7 @@ $(function() {
   }
 
   todoList.loadListData();
-  todoList.renderList(0);
+  todoList.renderList();
   todoList.addClickListener();
   todoList.addKeyListener();
   todoList.storeListData();
